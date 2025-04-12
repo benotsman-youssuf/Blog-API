@@ -1,7 +1,7 @@
 import express from "express";
 import { Router } from "express";
 import { authenticate, isAdmin } from "../middleware/auth.middleware.js";
-import { validate, blogSchema } from "../middleware/vaidate.middleware.js";
+import { validate, blogSchema } from "../middleware/validate.middleware.js";
 import {
   getBlog,
   getBlogs,

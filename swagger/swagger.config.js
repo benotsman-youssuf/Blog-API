@@ -14,8 +14,45 @@ const swaggerOptions = {
         description: "Development server",
       },
     ],
+    components: {
+      securitySchemes: {
+        cookieAuth: {
+          type: "apiKey",
+          in: "cookie",
+          name: "token"
+        }
+      },
+      schemas: {
+        User: {
+          type: "object",
+          properties: {
+            id: { type: "string" },
+            username: { type: "string" },
+            email: { type: "string" },
+            role: { type: "string", enum: ["user", "admin"] }
+          }
+        },
+        Blog: {
+          type: "object",
+          properties: {
+            _id: { type: "string" },
+            title: { type: "string" },
+            content: { type: "string" },
+            category: { type: "string" },
+            tags: { 
+              type: "array",
+              items: { type: "string" }
+            },
+            author: { 
+              type: "string", 
+              description: "User ID reference" 
+            }
+          }
+        }
+      }
+    }
   },
-  apis: ["./routes/*.js"], // Path to your route files
+  apis: ["./routes/*.js", "./swagger/*.js"], // Path to route files and additional swagger definitions
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);

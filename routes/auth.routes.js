@@ -5,7 +5,7 @@ import {
   validate,
   loginSchema,
   registerSchema,
-} from "../middleware/vaidate.middleware.js";
+} from "../middleware/validate.middleware.js";
 
 const router = Router();
 

@@ -31,8 +31,12 @@ app.use(
   })
 );
 
-connectDb(DB_URL);
-
-app.listen(PORT, () => {
-  console.log(`Server up on http://localhost:${PORT}`);
+app.listen(PORT, async () => {
+  try {
+    await connectDb(DB_URL);
+    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Swagger docs available at http://localhost:${PORT}/api-docs`);
+  } catch (error) {
+    console.error("Cannot connect to the database: ", error.message);
+  }
 });

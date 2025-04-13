@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import blogRoutes from "./routes/blog.routes.js";
 import authRoutes from "./routes/auth.routes.js";
+import commentsRoutes from "./routes/comment.routes.js";
 import connectDb from "./db/connectDB.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./swagger/swagger.config.js";
@@ -18,8 +19,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use("/api/blogs", blogRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/blogs", blogRoutes);
+app.use("/api/comments", commentsRoutes);
 
 app.use(
   "/api-docs",

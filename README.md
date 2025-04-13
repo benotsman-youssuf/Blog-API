@@ -1,12 +1,13 @@
 # Blog API
 
-This is a RESTful API for a blogging platform. It allows users to register, log in, create, update, delete, and search for blogs. The API also includes user authentication and role-based access control.
+This is a RESTful API for a blogging platform. It allows users to register, log in, create, update, delete, and search for blogs. The API also includes user authentication, role-based access control, and comment management.
 
 ## Features
 
 - **Authentication**: User registration and login with JWT-based authentication.
 - **Blog Management**: Create, update, delete, and search blogs.
-- **Pagination**: Supports pagination for listing blogs.
+- **Comment Management**: Add, update, delete, and retrieve comments on blogs.
+- **Pagination**: Supports pagination for listing blogs and comments.
 - **Role-Based Access Control**: Admin-specific operations.
 - **Swagger Documentation**: API documentation using Swagger.
 
@@ -19,8 +20,6 @@ This is a RESTful API for a blogging platform. It allows users to register, log 
 - **Joi**: Validation library.
 - **JWT**: Authentication.
 - **Swagger**: API documentation.
-
-
 
 ## API Endpoints
 
@@ -41,6 +40,15 @@ This is a RESTful API for a blogging platform. It allows users to register, log 
 ### User Blogs
 
 - **GET** `/api/blogs/user/myblogs`: Get blogs created by the authenticated user.
+
+### Comments
+
+- **GET** `/api/comments`: Get all comments.
+- **GET** `/api/comments/my`: Get comments created by the authenticated user.
+- **GET** `/api/comments/:id`: Get a specific comment by ID.
+- **POST** `/api/comments/:blogId`: Add a comment to a blog (requires authentication).
+- **PATCH** `/api/comments/:id`: Update a comment (requires authentication).
+- **DELETE** `/api/comments/:id`: Delete a comment (requires authentication).
 
 ## Swagger Documentation
 

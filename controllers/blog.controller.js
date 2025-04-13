@@ -12,7 +12,7 @@ export const getBlog = async (req, res) => {
       blog,
     });
   } catch (error) {
-    console.error(`Error in getBlog: ${error.message}`);
+    console.error(`Error in getBlog: ${error}`);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -46,7 +46,7 @@ export const getBlogs = async (req, res) => {
 
 export const searchBlogs = async (req, res) => {
   try {
-    const { page=1, limit=10, term } = req.query;
+    const { page = 1, limit = 10, term } = req.query;
 
     const pageNumber = parseInt(page, 10);
     const pageSize = parseInt(limit, 10);
@@ -151,7 +151,7 @@ export const deleteBlog = async (req, res) => {
 
 export const getMyBlogs = async (req, res) => {
   try {
-    const { page=1, limit=10 } = req.query;
+    const { page = 1, limit = 10 } = req.query;
     const pageNumber = parseInt(page, 10);
     const pageSize = parseInt(limit, 10);
 
@@ -160,7 +160,9 @@ export const getMyBlogs = async (req, res) => {
     const userId = req.user.id;
     const blogs = await blogModel
       .find({ author: userId })
-      .populate("author", "username email").skip(skip).limit(pageSize);
+      .populate("author", "username email")
+      .skip(skip)
+      .limit(pageSize);
 
     const totalBlogs = await blogModel.countDocuments({ author: userId });
 

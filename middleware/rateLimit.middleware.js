@@ -1,27 +1,26 @@
-const reqCount = {};
+import Redis from "ioredis";
+const redis = new Redis();
 
-const rateLimiter = (req, res, next) => {
-  const ip = req.ip;
-  const now = Date.now();
+const rateLimiter = async (req, res, next) => {
+  try {
+    const ip = req.ip;
+    const key = `rate-limit:${ip}`;
 
-  if (!reqCount[ip]) {
-    reqCount[ip] = { count: 1, lastReq: now };
-  } else {
-    const timeSinceLastRequest = now - reqCount[ip].lastReq;
-    const timeLimit = 15 * 60 * 1000;
+    const limit = 5; 
+    const windowTime = 15 * 60; 
 
-    if (timeSinceLastRequest < timeLimit) {
-      reqCount[ip].count++;
-    } else {
-      reqCount[ip] = { count: 1, lastReq: now };
+    const requests = await redis.incr(key);
+    if (requests === 1) {
+      await redis.expire(key, windowTime);
     }
-  }
-  const maxReq = 2;
 
-  if (reqCount[ip].count > maxReq) {
-    return res.status(429).json({ message: "too many requests try again" });
+    if (requests > limit) {
+      return res.status(429).json({ message: "too many requests try again" });
+    }
+    next();
+  } catch (error) {
+    console.error("Error in rateLimiter middleware:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
-  reqCount[ip].lastReq = now;
-  next();
 };
-export default rateLimiter
+export default rateLimiter;

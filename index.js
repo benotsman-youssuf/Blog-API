@@ -20,8 +20,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(rateLimiter);
 
+app.use('/api', rateLimiter);
 app.use("/api/auth", authRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/comments", commentsRoutes);
